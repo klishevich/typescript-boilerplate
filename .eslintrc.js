@@ -22,7 +22,9 @@ module.exports = {
       node: {
         extensions: [
           ".js",
-          ".jsx"
+          ".jsx",
+          ".ts",
+          ".tsx"
         ]
       }
     }

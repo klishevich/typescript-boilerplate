@@ -2,60 +2,50 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/client/index.js',
+  entry: './src/client/index.tsx',
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, '.build/client'),
     publicPath: 'assets/'
+  },
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: 'source-map',
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
   },
   plugins: [
     new CopyWebpackPlugin([
       {
         from: 'src/client/public',
         to: 'public'
+      },
+      {
+        from: 'node_modules/react/umd',
+        to: 'public'
+      },
+      {
+        from: 'node_modules/react-dom/umd',
+        to: 'public'
       }
-    ], { debug: 'info' })
+    ], { debug: 'error' })
   ],
   module: {
     rules: [
       {
+        test: /\.(js|jsx|ts|tsx)$/,
+        loader: 'ts-loader'
+      },
+      {
+        enforce: 'pre',
         test: /\.jsx?$/,
-        resolve: {
-          extensions: ['.js', '.jsx', '.json']
-        },
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            babelrc: false,
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-transform-runtime',
-              '@babel/plugin-transform-async-to-generator'
-            ]
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader', // creates style nodes from JS strings
-          { loader: 'css-loader', options: { importLoaders: 1 } }, // translates CSS into CommonJS
-          'postcss-loader' // post CSS transform
-        ]
-      },
-      {
-        test: /\.(png|jpg|gif|woff|woff2|eot|ttf|otf|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {}
-          }
-        ]
+        loader: 'source-map-loader'
       }
     ]
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
   },
   devServer: {
     port: 9090
