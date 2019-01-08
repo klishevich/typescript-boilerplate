@@ -8,54 +8,31 @@ module.exports = {
     path: path.resolve(__dirname, '.build/client'),
     publicPath: 'assets/'
   },
+  devtool: 'source-map',
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+  },
   plugins: [
     new CopyWebpackPlugin([
-      {
-        from: 'src/client/public',
-        to: 'public'
-      }
-    ], { debug: 'info' })
+      { from: 'src/client/public', to: 'public' },
+      { from: 'node_modules/react/umd/react.development.js', to: 'public' },
+      { from: 'node_modules/react-dom/umd/react-dom.development.js', to: 'public' }
+    ], { debug: 'error' })
   ],
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        resolve: {
-          extensions: ['.js', '.jsx', '.json']
-        },
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            babelrc: false,
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-transform-runtime',
-              '@babel/plugin-transform-async-to-generator'
-            ]
-          }
-        }
+        use: { loader: 'awesome-typescript-loader' }
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader', // creates style nodes from JS strings
-          { loader: 'css-loader', options: { importLoaders: 1 } }, // translates CSS into CommonJS
-          'postcss-loader' // post CSS transform
-        ]
-      },
-      {
-        test: /\.(png|jpg|gif|woff|woff2|eot|ttf|otf|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {}
-          }
-        ]
-      }
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
   },
   devServer: {
     port: 9090

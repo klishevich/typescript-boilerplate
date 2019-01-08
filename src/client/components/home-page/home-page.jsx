@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-export default class HomePage extends Component {
+export default class HomePage extends React.Component {
   render() {
     return (
       <div className='home-page'>

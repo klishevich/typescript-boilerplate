@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Type from 'prop-types';
 import { Link } from 'react-router-dom';
 import { push } from 'connected-react-router';
-import elbrusImg from './elbrus.png';
+// import elbrusImg from './elbrus.png';
 import { PAGES } from '../../routes/pages';
 import { bemClassNameFactory } from '../../utils/bem';
 import { sayByeAC, sayHiAC } from '../../redux/actions/app-actions';
@@ -14,7 +14,7 @@ import { selectSay } from '../../redux/selectors/app-selectors';
 import { selectPathname } from '../../redux/selectors/router-selectors';
 import { selectUser, selectIsUserFetching } from '../../redux/selectors/user-selectors';
 import { selectPosts, selectIsPostsFetching } from '../../redux/selectors/post-selectors';
-import './app.css';
+// import './app.css';
 
 const cn = bemClassNameFactory('app');
 
@@ -27,16 +27,6 @@ const mapStateToProps = state => ({
   isPostsFetching: selectIsPostsFetching(state)
 });
 
-// Alternative Way to map dispatch to props
-// const mapDispatchToProps = dispatch => ({
-//   sayBye: () => dispatch(sayByeAC()),
-//   sayHi: () => dispatch(sayHiAC()),
-//   doRoute: page => dispatch(push(page)),
-//   fetchUserStart: () => dispatch(fetchUserStartAC()),
-//   fetchUserSuccess: user => dispatch(fetchUserSuccessAC(user)),
-//   fetchUserError: () => dispatch(fetchUserErrorAC())
-// });
-
 const mapDispatchToProps = dispatch => bindActionCreators({
   sayBye: sayByeAC,
   sayHi: sayHiAC,
@@ -47,7 +37,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPostsThunkAC
 }, dispatch);
 
-class App extends Component {
+class App extends React.Component {
   static propTypes = {
     appName: Type.string,
     children: Type.node.isRequired,
@@ -167,7 +157,7 @@ class App extends Component {
       <div className={ cn('menu') }>
         <h2>Menu</h2>
         <div className={ cn('logo') }>
-          <img src={ elbrusImg } height='100px' />
+          TODO insert Img
         </div>
         <div><Link to={ PAGES.home.path }>Home Page</Link></div>
         <div><Link to={ PAGES.info.path }>Info Page</Link></div>

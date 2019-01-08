@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-export default class InfoPage extends Component {
+export default class InfoPage extends React.Component {
   render() {
     return (
       <div className='info-page'>
